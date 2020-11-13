@@ -63,7 +63,6 @@ public class GameController : MonoBehaviour
 
         GetSave();
         GetLevel();
-        coins = 1000;
     }
     
     private void GetLevel()
