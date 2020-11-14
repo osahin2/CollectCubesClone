@@ -1,1 +1,1 @@
-"# Collect Cubes Clone" 
+# Collect Cubes Clone
