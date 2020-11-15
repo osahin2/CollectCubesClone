@@ -30,7 +30,7 @@ public class Damager : MonoBehaviour
         }
     }
 
-    IEnumerator MoveDamager()
+    private IEnumerator MoveDamager()
     {
         while (true)
         {

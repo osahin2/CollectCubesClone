@@ -5,17 +5,10 @@ using UnityEngine;
 
 public class CubeEffector : MonoBehaviour
 {
-    public static CubeEffector Instance { get; private set; }
-
     [SerializeField] private float magnetForce;
     [SerializeField] private Material collectedCubeMat;
 
-    public event Action<CubeEffector> OnEnterArea;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
+    public static event Action<CubeEffector> OnEnterArea;
 
     private void OnTriggerEnter(Collider other)
     {

@@ -7,9 +7,9 @@ public class LevelController : MonoBehaviour
 
     private float cubeCounter = 0;
 
-    private void Awake()
+    private void OnEnable()
     {
-        CubeEffector.Instance.OnEnterArea += HandleLevelEnd;
+        CubeEffector.OnEnterArea += HandleLevelEnd;
     }
 
     private void HandleLevelEnd(CubeEffector cubeEffector)
@@ -26,6 +26,6 @@ public class LevelController : MonoBehaviour
 
     private void OnDestroy()
     {
-        CubeEffector.Instance.OnEnterArea -= HandleLevelEnd;
+        CubeEffector.OnEnterArea -= HandleLevelEnd;
     }
 }

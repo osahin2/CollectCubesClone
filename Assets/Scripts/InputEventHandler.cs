@@ -6,9 +6,9 @@ using UnityEngine.EventSystems;
 
 public class InputEventHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
-    public event Action<PointerEventData> PointerDowned;
-    public event Action<PointerEventData> PointerDragged;
-    public event Action<PointerEventData> PointerUpped;
+    public static event Action<PointerEventData> PointerDowned;
+    public static event Action<PointerEventData> PointerDragged;
+    public static event Action<PointerEventData> PointerUpped;
 
     public void OnPointerDown(PointerEventData eventData)
     {

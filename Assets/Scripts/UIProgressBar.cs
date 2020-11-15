@@ -5,24 +5,35 @@ using UnityEngine.UI;
 
 public class UIProgressBar : MonoBehaviour
 {
-    public static UIProgressBar Instance { get; private set; }
+    public UIProgressBar()
+    {
+        instance = this;
+    }
+
+    private static UIProgressBar instance;
+
+    public static UIProgressBar Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new UIProgressBar();
+            }
+            return instance;
+        }
+    }
 
     [SerializeField] private Image progressMask;
 
     float originalSize;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
-
-    private void Start()
-    {
-        originalSize = gameObject.GetComponent<RectTransform>().rect.width;
-    }
-
     public void SetProgressValue(float value)
     {
+        if (gameObject.TryGetComponent(out RectTransform rectTransform))
+        {
+            originalSize = rectTransform.rect.width;
+        }
         progressMask.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, originalSize * value );
     }
 }

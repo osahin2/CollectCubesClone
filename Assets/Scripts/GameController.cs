@@ -10,10 +10,10 @@ public class GameController : MonoBehaviour
     public static GameController Instance { get; private set; }
 
     [Header("Others")]
-    [SerializeField] InputEventHandler inputHandler;
-    [SerializeField] PlayerController playerController;
-    [SerializeField] Renderer[] playerRend;
-    [SerializeField] Material[] playerMats;
+    [SerializeField] private PlayerController playerController;
+    [SerializeField] private Transform levelPos;
+    [SerializeField] private Renderer[] playerRend;
+    [SerializeField] private Material[] playerMats;
 
     [Header("UI Elements")]
     [SerializeField] private Text dragToStartText;
@@ -30,8 +30,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private ParticleSystem levelEndParticle;
     [Header("Levels")]
     [SerializeField] List<GameObject> levels;
-
-    private Vector3 levelPos = new Vector3(0, 0, 27);
+    
     private int index = -1;
     private bool fadeControl;
     private Vector3 playerStartPos;
@@ -47,10 +46,17 @@ public class GameController : MonoBehaviour
     private GameObject level;
     public GameObject Level => level;
 
-    private void Awake()
+    private void Initialized()
     {
         Instance = this;
-        inputHandler.PointerDragged += DragToStart;
+
+        playerController.Initialized();
+        InputEventHandler.PointerDragged += DragToStart;
+    }
+
+    private void Awake()
+    {
+        Initialized();
     }
 
     private void Start()
@@ -63,6 +69,7 @@ public class GameController : MonoBehaviour
 
         GetSave();
         GetLevel();
+        coins = 1000;
     }
     
     private void GetLevel()
@@ -72,7 +79,7 @@ public class GameController : MonoBehaviour
         {
             index = 0;
         }
-        level = Instantiate(levels[index], levelPos, Quaternion.identity);
+        level = Instantiate(levels[index], levelPos.position, Quaternion.identity);
         progressNextLevel = index + 1;
         progressInstantLevelText.text = index.ToString();
         progresNextLevelText.text = progressNextLevel.ToString();
@@ -88,7 +95,7 @@ public class GameController : MonoBehaviour
     public void LevelEnd()
     {
         instantLevel = index + 1;
-        inputHandler.PointerDragged -= DragToStart;
+        InputEventHandler.PointerDragged -= DragToStart;
         playerController.StopPlayerInput();
         retryLevelButton.gameObject.SetActive(false);
         LeanTween.alpha(levelEndScreen.rectTransform, 1f, 1f).setEase(LeanTweenType.easeInCirc).setOnStart(()=> {
@@ -109,7 +116,7 @@ public class GameController : MonoBehaviour
     private void LevelStart()
     {
         LeanTween.alpha(levelEndScreen.rectTransform, 0f, 1f).setEase(LeanTweenType.easeInCirc).setOnComplete(() => {
-            inputHandler.PointerDragged += DragToStart;
+            InputEventHandler.PointerDragged += DragToStart;
             playerController.Initialized();
             dragToStartText.enabled = true;
             progressBar.SetActive(true);
@@ -126,7 +133,7 @@ public class GameController : MonoBehaviour
         }
 
         Destroy(level);
-        level = Instantiate(levels[index], levelPos, Quaternion.identity);
+        level = Instantiate(levels[index], levelPos.position, Quaternion.identity);
 
         dragToStartText.enabled = true;
         retryLevelButton.gameObject.SetActive(false);
@@ -144,7 +151,6 @@ public class GameController : MonoBehaviour
     public void CoinCounter(float value)
     {
         coins += value;
-        Debug.Log(coins);
         coinText.text = coins.ToString();
         PlayerPrefs.SetFloat("coinSave", coins);
     }

@@ -11,33 +11,23 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float lerpFactor;
     [SerializeField]
-    private Image onScreenImage;
+    private RectTransform rectImage;
     [SerializeField]
-    private InputEventHandler inputHandler;
+    private Rigidbody rb;
 
     private Vector3 move;
     private Vector2 firstPos;
     private Vector2 dragPos;
-    private Rigidbody rb;
-    
+
     public void Initialized()
     {
-        inputHandler.PointerDragged += Move;
-        inputHandler.PointerDowned += FingerDown;
+        InputEventHandler.PointerDragged += Move;
+        InputEventHandler.PointerDowned += FingerDown;
     }
-
-    private void Awake()
-    {
-        Initialized();
-        rb = GetComponent<Rigidbody>();
-    }
-
+    
     private void Move(PointerEventData eventData)
     {
-        if (onScreenImage.TryGetComponent(out RectTransform rectImage))
-        {
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectImage, eventData.position, eventData.pressEventCamera, out dragPos);
-        }
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(rectImage, eventData.position, eventData.pressEventCamera, out dragPos);
 
         if (eventData.dragging)
         {
@@ -54,15 +44,12 @@ public class PlayerController : MonoBehaviour
     }
     private void FingerDown(PointerEventData eventData)
     {
-        if (onScreenImage.TryGetComponent(out RectTransform rectImage))
-        {
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectImage, eventData.position, eventData.pressEventCamera, out firstPos);
-        }
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(rectImage, eventData.position, eventData.pressEventCamera, out firstPos);
     }
 
     public void StopPlayerInput()
     {
-        inputHandler.PointerDragged -= Move;
-        inputHandler.PointerDowned -= FingerDown;
+        InputEventHandler.PointerDragged -= Move;
+        InputEventHandler.PointerDowned -= FingerDown;
     }
 }

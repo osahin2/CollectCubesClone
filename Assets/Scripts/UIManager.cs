@@ -7,8 +7,8 @@ public class UIManager : MonoBehaviour
 {
     private const float SPEND_COIN = 100.0f;
 
-    [SerializeField] Button[] playerSelectButtons;
-    [SerializeField] Image[] playerUnknownImages;
+    [SerializeField] private Button[] playerSelectButtons;
+    [SerializeField] private Image[] playerUnknownImages;
 
     private int randomSkinVal;
     private int randomVal = 8;
@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
                 if (!playerSelectButtons[i].interactable && GameController.Instance.Coins > 100)
                 {
                     OpenButtons(i);
-                    break;
+                    return;
                 }
             }
         }
@@ -39,6 +39,5 @@ public class UIManager : MonoBehaviour
         playerSelectButtons[val].interactable = true;
         playerUnknownImages[val].enabled = false;
         GameController.Instance.BuyPlayerSkin(SPEND_COIN);
-
     }
 }
