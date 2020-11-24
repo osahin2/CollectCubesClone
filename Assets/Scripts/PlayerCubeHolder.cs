@@ -7,7 +7,7 @@ public class PlayerCubeHolder : MonoBehaviour
     [SerializeField] private float GRAVITY_PULL = .78f;
     [SerializeField] private SphereCollider holderCollider;
 
-    private float gravityRadius = 1f;
+    //private float gravityRadius = 1f;
 
     private void OnTriggerStay(Collider other)
     {

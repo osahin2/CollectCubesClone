@@ -12,7 +12,7 @@ public class Damager : MonoBehaviour
     private Vector3 startPos;
     private Transform damagerParent;
 
-    private void Start()
+    private void OnEnable()
     {
         damagerParent = transform.parent;
         transform.SetParent(null);
